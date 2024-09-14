@@ -1,0 +1,35 @@
+{
+  "name": "lsst-s3daemon",
+  "version": "1.0.0-rc0",
+  "author": "AURA/LSST/Rubin Observatory",
+  "summary": "Client/server for pushing objects to S3 storage.",
+  "license": "Apache-2.0",
+  "source": "https://github.com/lsst-it/puppet-s3daemon.git",
+  "tags": [
+    "s3"
+  ],
+  "dependencies": [
+    {
+      "name": "puppetlabs/stdlib",
+      "version_requirement": ">= 9.0.0 < 10.0.0"
+    },
+    {
+      "name": "puppet/quadlets",
+      "version_requirement": ">= 1.0.0 < 2.0.0"
+    }
+  ],
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "AlmaLinux",
+      "operatingsystemrelease": [
+        "9"
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "name": "puppet",
+      "version_requirement": ">= 7.0.0 < 9.0.0"
+    }
+  ]
+}
