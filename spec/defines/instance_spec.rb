@@ -27,6 +27,11 @@ describe 's3daemon::instance' do
       end
 
       it do
+        is_expected.to contain_file("/etc/sysconfig/s3daemon-#{title}").
+          that_notifies("Quadlets::Quadlet[s3daemon-#{title}.container]")
+      end
+
+      it do
         is_expected.to contain_quadlets__quadlet("s3daemon-#{title}.container").with(
           container_entry: {
             'EnvironmentFile' => ["/etc/sysconfig/s3daemon-#{title}"],
