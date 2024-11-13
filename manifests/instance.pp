@@ -37,7 +37,7 @@ define s3daemon::instance (
     'S3_ENDPOINT_URL'       => $s3_endpoint_url,
     'AWS_ACCESS_KEY_ID'     => $aws_access_key_id.unwrap,
     'AWS_SECRET_ACCESS_KEY' => $aws_secret_access_key.unwrap,
-  } + $env
+  } + $s3daemon::env + $env
 
   file { "/etc/sysconfig/s3daemon-${name}":
     ensure    => file,

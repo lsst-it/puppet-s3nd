@@ -23,6 +23,7 @@ Client/server for pushing objects to S3 storage.
 The following parameters are available in the `s3daemon` class:
 
 * [`instances`](#-s3daemon--instances)
+* [`env`](#-s3daemon--env)
 
 ##### <a name="-s3daemon--instances"></a>`instances`
 
@@ -32,6 +33,16 @@ A hash of instances to configure. The key is the instance name and the value
 is a hash of `s3daemon::instance` parameters.
 
 Default value: `undef`
+
+##### <a name="-s3daemon--env"></a>`env`
+
+Data type: `Hash`
+
+A hash of additional environment variables to set in the container, common
+to all s3daemon::instance(s) but may be overridden by the instance's env
+param.
+
+Default value: `{}`
 
 ## Defined types
 
