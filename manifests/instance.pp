@@ -55,6 +55,7 @@ define s3daemon::instance (
     # lint:endignore
     # lint:endignore
     # lint:endignore
+    notify    => Quadlets::Quadlet["s3daemon-${name}.container"],
   }
 
   $nobody = 65534
