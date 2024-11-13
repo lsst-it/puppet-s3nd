@@ -14,6 +14,10 @@ class { 's3daemon':
       'port'                  => 15557,
       'image'                 => 'ghcr.io/lsst-dm/s3daemon:sha-b5e72fa',
       'volumes'               => ['/home:/home', '/opt:/opt'],
+      'env'                   => {
+        'FOO' => 'bar',
+        'BAZ' => 'quix',
+      },
     },
   },
 }
