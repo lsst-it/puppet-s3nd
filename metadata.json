@@ -1,6 +1,6 @@
 {
   "name": "lsst-s3daemon",
-  "version": "1.2.0",
+  "version": "1.2.1-rc0",
   "author": "AURA/LSST/Rubin Observatory",
   "summary": "Client/server for pushing objects to S3 storage.",
   "license": "Apache-2.0",
