@@ -49,6 +49,7 @@ The following parameters are available in the `s3daemon::instance` defined type:
 * [`port`](#-s3daemon--instance--port)
 * [`image`](#-s3daemon--instance--image)
 * [`volumes`](#-s3daemon--instance--volumes)
+* [`env`](#-s3daemon--instance--env)
 
 ##### <a name="-s3daemon--instance--s3_endpoint_url"></a>`s3_endpoint_url`
 
@@ -73,7 +74,6 @@ The AWS secret access key to use for authentication.
 Data type: `Stdlib::Port`
 
 The tcp port on which the s3daemon service will listen.
-Default: 16666
 
 Default value: `15556`
 
@@ -92,7 +92,13 @@ Data type: `Array[Stdlib::Absolutepath]`
 An array of volumes to mount in the container. Uses the format
 '/host:/contaner'.  E.g. ['/home:/home', '/data:/data']
 
-Default: ['/home:/home']
-
 Default value: `['/home:/home']`
+
+##### <a name="-s3daemon--instance--env"></a>`env`
+
+Data type: `Hash`
+
+A hash of additional environment variables to set in the container.
+
+Default value: `{}`
 

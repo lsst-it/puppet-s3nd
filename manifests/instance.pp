@@ -12,7 +12,6 @@
 #
 # @param port
 #   The tcp port on which the s3daemon service will listen.
-#   Default: 16666
 #
 # @param image
 #   The container image to use for the s3daemon service.
@@ -21,7 +20,8 @@
 #   An array of volumes to mount in the container. Uses the format
 #   '/host:/contaner'.  E.g. ['/home:/home', '/data:/data']
 #
-#   Default: ['/home:/home']
+# @param env
+#  A hash of additional environment variables to set in the container.
 #
 define s3daemon::instance (
   Stdlib::HTTPUrl $s3_endpoint_url,
@@ -30,18 +30,30 @@ define s3daemon::instance (
   Stdlib::Port $port = 15556,
   String[1] $image = 'ghcr.io/lsst-dm/s3daemon:main',
   Array[Stdlib::Absolutepath] $volumes = ['/home:/home'],
+  Hash $env = {},
 ) {
+  $envvars = {
+    'S3DAEMON_PORT'         => $port,
+    'S3_ENDPOINT_URL'       => $s3_endpoint_url,
+    'AWS_ACCESS_KEY_ID'     => $aws_access_key_id.unwrap,
+    'AWS_SECRET_ACCESS_KEY' => $aws_secret_access_key.unwrap,
+  } + $env
+
   file { "/etc/sysconfig/s3daemon-${name}":
     ensure    => file,
     show_diff => false,  # don't leak secrets in the logs
     mode      => '0600',  # only root should be able to read the secrets
     # lint:ignore:strict_indent
-    content   => @("CONTENT"),
-      S3DAEMON_PORT=${port}
-      S3_ENDPOINT_URL=${s3_endpoint_url}
-      AWS_ACCESS_KEY_ID=${aws_access_key_id.unwrap}
-      AWS_SECRET_ACCESS_KEY=${aws_secret_access_key.unwrap}
-      | CONTENT
+    # lint:ignore:variable_scope
+    # lint:ignore:variables_not_enclosed
+    content   => inline_epp(@(TMPL), { envvars => $envvars }),
+      <%- | Hash $envvars | -%>
+      <% $envvars.each | $k, $v | { -%>
+      <%= $k %>=<%= $v %>
+      <% } -%>
+      | TMPL
+    # lint:endignore
+    # lint:endignore
     # lint:endignore
   }
 

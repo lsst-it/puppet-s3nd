@@ -41,6 +41,22 @@ describe 's3daemon::instance' do
           }
         )
       end
+
+      context 'with env' do
+        let(:params) do
+          super().merge(
+            env: {
+              'FOO' => 'BAR',
+            }
+          )
+        end
+
+        it do
+          is_expected.to contain_file("/etc/sysconfig/s3daemon-#{title}").with(
+            content: %r{FOO=BAR}
+          )
+        end
+      end
     end
   end
 end
