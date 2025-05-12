@@ -30,6 +30,7 @@ lookup_options:
       strategy: deep
 classes:
   - s3daemon
+s3daemon::image: ghcr.io/lsst-dm/s3daemon:sha-b5e72fa
 s3daemon::env:
   AWS_CA_BUNDLE: /path/to/cacert.pem
 s3daemon::instances:
@@ -43,7 +44,6 @@ s3daemon::instances:
   bar:
     aws_access_key_id: access_key_id
     aws_secret_access_key: secret_access_key
-    image: ghcr.io/lsst-dm/s3daemon:sha-b5e72fa
     volumes:
       - "/home:/home"
       - "/opt:/opt"

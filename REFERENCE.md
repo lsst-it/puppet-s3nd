@@ -23,6 +23,7 @@ Client/server for pushing objects to S3 storage.
 The following parameters are available in the `s3daemon` class:
 
 * [`instances`](#-s3daemon--instances)
+* [`image`](#-s3daemon--image)
 * [`env`](#-s3daemon--env)
 
 ##### <a name="-s3daemon--instances"></a>`instances`
@@ -33,6 +34,15 @@ A hash of instances to configure. The key is the instance name and the value
 is a hash of `s3daemon::instance` parameters.
 
 Default value: `undef`
+
+##### <a name="-s3daemon--image"></a>`image`
+
+Data type: `String[1]`
+
+The default container image to use for the instances. May be overridden by
+the instance's env
+
+Default value: `'ghcr.io/lsst-dm/s3daemon:main'`
 
 ##### <a name="-s3daemon--env"></a>`env`
 
@@ -74,11 +84,11 @@ The AWS secret access key to use for authentication.
 
 ##### <a name="-s3daemon--instance--image"></a>`image`
 
-Data type: `String[1]`
+Data type: `Optional[String[1]]`
 
 The container image to use for the s3daemon service.
 
-Default value: `'ghcr.io/lsst-dm/s3daemon:main'`
+Default value: `undef`
 
 ##### <a name="-s3daemon--instance--volumes"></a>`volumes`
 
