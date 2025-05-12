@@ -19,6 +19,7 @@ describe 's3daemon' do
         it { is_expected.to contain 'AWS_ACCESS_KEY_ID=access_key_id' }
         it { is_expected.to contain 'AWS_SECRET_ACCESS_KEY=secret_access_key' }
         it { is_expected.to contain 'QUUX=corge' }
+        it { is_expected.to contain 'FOO=bar' }
       end
 
       describe docker_container('systemd-s3daemon-foo') do
@@ -49,9 +50,8 @@ describe 's3daemon' do
         it { is_expected.to contain 'S3_ENDPOINT_URL=https://s3.bar.example.com' }
         it { is_expected.to contain 'AWS_ACCESS_KEY_ID=access_key_id' }
         it { is_expected.to contain 'AWS_SECRET_ACCESS_KEY=secret_access_key' }
-        it { is_expected.to contain 'FOO=bar' }
-        it { is_expected.to contain 'BAZ=qux' }
         it { is_expected.to contain 'QUUX=corge' }
+        it { is_expected.to contain 'BAZ=qux' }
       end
 
       describe docker_container('systemd-s3daemon-bar') do
