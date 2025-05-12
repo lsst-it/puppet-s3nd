@@ -11,6 +11,7 @@ describe 's3daemon::instance' do
         {
           env: {
             S3_ENDPOINT_URL: 'https://s3.example.com',
+            S3DAEMON_PORT: 15_556,
           },
           aws_access_key_id: 'foo',
           aws_secret_access_key: 'bar',

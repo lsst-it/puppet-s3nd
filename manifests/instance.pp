@@ -7,9 +7,6 @@
 # @param aws_secret_access_key
 #   The AWS secret access key to use for authentication.
 #
-# @param port
-#   The tcp port on which the s3daemon service will listen.
-#
 # @param image
 #   The container image to use for the s3daemon service.
 #
@@ -23,13 +20,11 @@
 define s3daemon::instance (
   Variant[String[1], Sensitive[String[1]]] $aws_access_key_id,
   Variant[String[1], Sensitive[String[1]]] $aws_secret_access_key,
-  Stdlib::Port $port = 15556,
   String[1] $image = 'ghcr.io/lsst-dm/s3daemon:main',
   Array[Stdlib::Absolutepath] $volumes = ['/home:/home'],
   Hash $env = {},
 ) {
   $envvars = {
-    'S3DAEMON_PORT'         => $port,
     'AWS_ACCESS_KEY_ID'     => $aws_access_key_id.unwrap,
     'AWS_SECRET_ACCESS_KEY' => $aws_secret_access_key.unwrap,
   } + $s3daemon::env + $env
