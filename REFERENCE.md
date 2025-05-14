@@ -56,7 +56,6 @@ The following parameters are available in the `s3daemon::instance` defined type:
 
 * [`aws_access_key_id`](#-s3daemon--instance--aws_access_key_id)
 * [`aws_secret_access_key`](#-s3daemon--instance--aws_secret_access_key)
-* [`port`](#-s3daemon--instance--port)
 * [`image`](#-s3daemon--instance--image)
 * [`volumes`](#-s3daemon--instance--volumes)
 * [`env`](#-s3daemon--instance--env)
@@ -72,14 +71,6 @@ The AWS access key ID to use for authentication.
 Data type: `Variant[String[1], Sensitive[String[1]]]`
 
 The AWS secret access key to use for authentication.
-
-##### <a name="-s3daemon--instance--port"></a>`port`
-
-Data type: `Stdlib::Port`
-
-The tcp port on which the s3daemon service will listen.
-
-Default value: `15556`
 
 ##### <a name="-s3daemon--instance--image"></a>`image`
 
