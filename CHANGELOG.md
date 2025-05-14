@@ -4,6 +4,20 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v2.0.0](https://github.com/lsst-it/puppet-s3daemon/tree/v2.0.0) (2025-05-14)
+
+[Full Changelog](https://github.com/lsst-it/puppet-s3daemon/compare/v1.2.0...v2.0.0)
+
+**Breaking changes:**
+
+- rm s3daemon::instance::port param [\#18](https://github.com/lsst-it/puppet-s3daemon/pull/18) ([jhoblitt](https://github.com/jhoblitt))
+- rm s3daemon::instance::s3\_endpoint\_url param [\#15](https://github.com/lsst-it/puppet-s3daemon/pull/15) ([jhoblitt](https://github.com/jhoblitt))
+
+**Implemented enhancements:**
+
+- add s3daemon::image param [\#19](https://github.com/lsst-it/puppet-s3daemon/pull/19) ([jhoblitt](https://github.com/jhoblitt))
+- add s3daemon::env param [\#9](https://github.com/lsst-it/puppet-s3daemon/pull/9) ([jhoblitt](https://github.com/jhoblitt))
+
 ## [v1.2.0](https://github.com/lsst-it/puppet-s3daemon/tree/v1.2.0) (2024-11-13)
 
 [Full Changelog](https://github.com/lsst-it/puppet-s3daemon/compare/v1.1.0...v1.2.0)
