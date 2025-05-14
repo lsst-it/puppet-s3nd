@@ -34,13 +34,13 @@ s3daemon::env:
   AWS_CA_BUNDLE: /path/to/cacert.pem
 s3daemon::instances:
   foo:
-    s3_endpoint_url: https://s3.foo.example.com
     aws_access_key_id: access_key_id
     aws_secret_access_key: secret_access_key
     port: 15556
     image: ghcr.io/lsst-dm/s3daemon:main
+    env:
+      S3_ENDPOINT_URL: https://s3.foo.example.com
   bar:
-    s3_endpoint_url: https://s3.bar.example.com
     aws_access_key_id: access_key_id
     aws_secret_access_key: secret_access_key
     port: 15557
@@ -49,6 +49,7 @@ s3daemon::instances:
       - "/home:/home"
       - "/opt:/opt"
     env:
+      S3_ENDPOINT_URL: https://s3.bar.example.com
       AWS_DEFAULT_REGION: baz
 ```
 

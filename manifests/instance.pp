@@ -1,9 +1,6 @@
 # @summary
 #   Deploy the s3daemon service
 #
-# @param s3_endpoint_url
-#   The URL of the S3 endpoint to which the s3daemon service will send files.
-#
 # @param aws_access_key_id
 #   The AWS access key ID to use for authentication.
 #
@@ -24,7 +21,6 @@
 #  A hash of additional environment variables to set in the container.
 #
 define s3daemon::instance (
-  Stdlib::HTTPUrl $s3_endpoint_url,
   Variant[String[1], Sensitive[String[1]]] $aws_access_key_id,
   Variant[String[1], Sensitive[String[1]]] $aws_secret_access_key,
   Stdlib::Port $port = 15556,
@@ -34,7 +30,6 @@ define s3daemon::instance (
 ) {
   $envvars = {
     'S3DAEMON_PORT'         => $port,
-    'S3_ENDPOINT_URL'       => $s3_endpoint_url,
     'AWS_ACCESS_KEY_ID'     => $aws_access_key_id.unwrap,
     'AWS_SECRET_ACCESS_KEY' => $aws_secret_access_key.unwrap,
   } + $s3daemon::env + $env

@@ -9,7 +9,9 @@ describe 's3daemon::instance' do
       let(:title) { 'foo' }
       let(:params) do
         {
-          s3_endpoint_url: 'https://s3.example.com',
+          env: {
+            S3_ENDPOINT_URL: 'https://s3.example.com',
+          },
           aws_access_key_id: 'foo',
           aws_secret_access_key: 'bar',
         }

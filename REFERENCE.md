@@ -54,19 +54,12 @@ Deploy the s3daemon service
 
 The following parameters are available in the `s3daemon::instance` defined type:
 
-* [`s3_endpoint_url`](#-s3daemon--instance--s3_endpoint_url)
 * [`aws_access_key_id`](#-s3daemon--instance--aws_access_key_id)
 * [`aws_secret_access_key`](#-s3daemon--instance--aws_secret_access_key)
 * [`port`](#-s3daemon--instance--port)
 * [`image`](#-s3daemon--instance--image)
 * [`volumes`](#-s3daemon--instance--volumes)
 * [`env`](#-s3daemon--instance--env)
-
-##### <a name="-s3daemon--instance--s3_endpoint_url"></a>`s3_endpoint_url`
-
-Data type: `Stdlib::HTTPUrl`
-
-The URL of the S3 endpoint to which the s3daemon service will send files.
 
 ##### <a name="-s3daemon--instance--aws_access_key_id"></a>`aws_access_key_id`
 
