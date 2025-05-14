@@ -20,10 +20,12 @@
 define s3daemon::instance (
   Variant[String[1], Sensitive[String[1]]] $aws_access_key_id,
   Variant[String[1], Sensitive[String[1]]] $aws_secret_access_key,
-  String[1] $image = 'ghcr.io/lsst-dm/s3daemon:main',
+  Optional[String[1]] $image = undef,
   Array[Stdlib::Absolutepath] $volumes = ['/home:/home'],
   Hash $env = {},
 ) {
+  $_image = pick($image, $s3daemon::image)
+
   $envvars = {
     'AWS_ACCESS_KEY_ID'     => $aws_access_key_id.unwrap,
     'AWS_SECRET_ACCESS_KEY' => $aws_secret_access_key.unwrap,
@@ -61,7 +63,7 @@ define s3daemon::instance (
       'EnvironmentFile' => [
         "/etc/sysconfig/s3daemon-${name}",
       ],
-      'Image'           => $image,
+      'Image'           => $_image,
       'Network'         => 'host',
       'Volume'          => $volumes,
       'User'            => $nobody,
