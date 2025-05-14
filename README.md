@@ -30,6 +30,8 @@ lookup_options:
       strategy: deep
 classes:
   - s3daemon
+s3daemon::env:
+  AWS_CA_BUNDLE: /path/to/cacert.pem
 s3daemon::instances:
   foo:
     s3_endpoint_url: https://s3.foo.example.com
@@ -46,6 +48,8 @@ s3daemon::instances:
     volumes:
       - "/home:/home"
       - "/opt:/opt"
+    env:
+      AWS_DEFAULT_REGION: baz
 ```
 
 ## Reference

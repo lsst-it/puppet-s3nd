@@ -14,6 +14,11 @@ describe 's3daemon::instance' do
           aws_secret_access_key: 'bar',
         }
       end
+      let(:pre_condition) do
+        <<-PRE_CONDITION
+          include s3daemon
+        PRE_CONDITION
+      end
 
       it { is_expected.to compile.with_all_deps }
 
@@ -47,12 +52,62 @@ describe 's3daemon::instance' do
         )
       end
 
-      context 'with env' do
+      context 'with instance env' do
         let(:params) do
           super().merge(
             env: {
               'FOO' => 'BAR',
             }
+          )
+        end
+
+        it do
+          is_expected.to contain_file("/etc/sysconfig/s3daemon-#{title}").with(
+            content: %r{FOO=BAR}
+          )
+        end
+      end
+
+      context 'with s3daemon::env' do
+        let(:pre_condition) do
+          <<-PRE_CONDITION
+            class { 's3daemon':
+              env => {
+                'BAZ' => 'QUX',
+              },
+            }
+          PRE_CONDITION
+        end
+
+        it do
+          is_expected.to contain_file("/etc/sysconfig/s3daemon-#{title}").with(
+            content: %r{BAZ=QUX}
+          )
+        end
+      end
+
+      context 'with s3daemon::env & isntance env' do
+        let(:pre_condition) do
+          <<-PRE_CONDITION
+            class { 's3daemon':
+              env => {
+                'BAZ' => 'QUX',
+              },
+            }
+          PRE_CONDITION
+        end
+
+        let(:params) do
+          super().merge(
+            env: {
+              'FOO' => 'BAR',
+            }
+          )
+        end
+
+        it do
+          is_expected.to contain_file("/etc/sysconfig/s3daemon-#{title}").with(
+            content: %r{BAZ=QUX}
           )
         end
 

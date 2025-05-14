@@ -1,4 +1,7 @@
 class { 's3daemon':
+  env       => {
+    'QUUX' => 'corge',
+  },
   instances => {
     'foo' => {
       's3_endpoint_url'       => 'https://s3.foo.example.com',
@@ -16,7 +19,7 @@ class { 's3daemon':
       'volumes'               => ['/home:/home', '/opt:/opt'],
       'env'                   => {
         'FOO' => 'bar',
-        'BAZ' => 'quix',
+        'BAZ' => 'qux',
       },
     },
   },
