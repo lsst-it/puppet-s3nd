@@ -24,6 +24,7 @@ The following parameters are available in the `s3daemon` class:
 
 * [`instances`](#-s3daemon--instances)
 * [`image`](#-s3daemon--image)
+* [`volumes`](#-s3daemon--volumes)
 * [`env`](#-s3daemon--env)
 
 ##### <a name="-s3daemon--instances"></a>`instances`
@@ -40,9 +41,19 @@ Default value: `undef`
 Data type: `String[1]`
 
 The default container image to use for the instances. May be overridden by
-the instance's env
+the instance's env.
 
 Default value: `'ghcr.io/lsst-dm/s3daemon:main'`
+
+##### <a name="-s3daemon--volumes"></a>`volumes`
+
+Data type: `Array[Stdlib::Absolutepath]`
+
+An array of volumes to mount in the container. Uses the format
+'/host:/contaner'. E.g. ['/home:/home', '/data:/data']
+May be overridden by the instance.
+
+Default value: `['/home:/home']`
 
 ##### <a name="-s3daemon--env"></a>`env`
 
@@ -97,7 +108,7 @@ Data type: `Array[Stdlib::Absolutepath]`
 An array of volumes to mount in the container. Uses the format
 '/host:/contaner'.  E.g. ['/home:/home', '/data:/data']
 
-Default value: `['/home:/home']`
+Default value: `$s3daemon::volumes`
 
 ##### <a name="-s3daemon--instance--env"></a>`env`
 

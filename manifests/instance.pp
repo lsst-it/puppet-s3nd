@@ -21,7 +21,7 @@ define s3daemon::instance (
   Variant[String[1], Sensitive[String[1]]] $aws_access_key_id,
   Variant[String[1], Sensitive[String[1]]] $aws_secret_access_key,
   Optional[String[1]] $image = undef,
-  Array[Stdlib::Absolutepath] $volumes = ['/home:/home'],
+  Array[Stdlib::Absolutepath] $volumes = $s3daemon::volumes,
   Hash $env = {},
 ) {
   $_image = pick($image, $s3daemon::image)

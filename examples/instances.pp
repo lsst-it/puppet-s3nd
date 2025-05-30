@@ -1,5 +1,6 @@
 class { 's3daemon':
   image     => 'ghcr.io/lsst-dm/s3daemon:sha-b5e72fa',
+  volumes   => ['/home:/home', '/var:/foo'],
   env       => {
     'S3DAEMON_PORT' => 15556,
     'QUUX'          => 'corge',
