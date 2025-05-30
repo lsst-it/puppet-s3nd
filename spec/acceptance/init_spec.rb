@@ -28,7 +28,7 @@ describe 's3daemon' do
         its(['HostConfig.NetworkMode']) { is_expected.to eq 'host' }
 
         its(['Mounts']) do
-          is_expected.to contain_exactly(a_hash_including('Source' => '/home'))
+          is_expected.to contain_exactly(a_hash_including('Source' => '/home'), a_hash_including('Source' => '/var'))
         end
       end
 
