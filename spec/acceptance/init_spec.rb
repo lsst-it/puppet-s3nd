@@ -10,8 +10,15 @@ describe 's3nd' do
 
     it_behaves_like 'an idempotent resource'
 
+    describe file('/etc/sysconfig/s3nd') do
+      it { is_expected.to be_directory }
+      it { is_expected.to be_mode '700' }
+      it { is_expected.to be_owned_by 'root' }
+      it { is_expected.to be_grouped_into 'root' }
+    end
+
     context 'instance foo' do
-      describe file('/etc/sysconfig/s3nd-foo') do
+      describe file('/etc/sysconfig/s3nd/s3nd-foo') do
         it { is_expected.to be_file }
         it { is_expected.to be_mode '600' }
         it { is_expected.to contain 'S3ND_PORT=15556' }
@@ -43,7 +50,7 @@ describe 's3nd' do
     end
 
     context 'instance bar' do
-      describe file('/etc/sysconfig/s3nd-bar') do
+      describe file('/etc/sysconfig/s3nd/s3nd-bar') do
         it { is_expected.to be_file }
         it { is_expected.to be_mode '600' }
         it { is_expected.to contain 'S3ND_PORT=15557' }

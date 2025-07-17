@@ -32,4 +32,12 @@ class s3nd (
       }
     }
   }
+
+  file { '/etc/sysconfig/s3nd':
+    ensure  => directory,
+    mode    => '0700',
+    purge   => true,
+    recurse => true,
+    force   => true,
+  }
 }

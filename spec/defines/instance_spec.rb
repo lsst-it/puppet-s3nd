@@ -26,7 +26,17 @@ describe 's3nd::instance' do
       it { is_expected.to compile.with_all_deps }
 
       it do
-        is_expected.to contain_file("/etc/sysconfig/s3nd-#{title}").with(
+        is_expected.to contain_file('/etc/sysconfig/s3nd').with(
+          ensure: 'directory',
+          mode: '0700',
+          purge: true,
+          recurse: true,
+          force: true
+        )
+      end
+
+      it do
+        is_expected.to contain_file("/etc/sysconfig/s3nd/s3nd-#{title}").with(
           ensure: 'file',
           show_diff: false,
           mode: '0600',
@@ -35,14 +45,14 @@ describe 's3nd::instance' do
       end
 
       it do
-        is_expected.to contain_file("/etc/sysconfig/s3nd-#{title}").
+        is_expected.to contain_file("/etc/sysconfig/s3nd/s3nd-#{title}").
           that_notifies("Quadlets::Quadlet[s3nd-#{title}.container]")
       end
 
       it do
         is_expected.to contain_quadlets__quadlet("s3nd-#{title}.container").with(
           container_entry: {
-            'EnvironmentFile' => ["/etc/sysconfig/s3nd-#{title}"],
+            'EnvironmentFile' => ["/etc/sysconfig/s3nd/s3nd-#{title}"],
             'Image'           => 'ghcr.io/lsst-dm/s3nd:main',
             'Network'         => 'host',
             'Volume'          => [
@@ -65,7 +75,7 @@ describe 's3nd::instance' do
         end
 
         it do
-          is_expected.to contain_file("/etc/sysconfig/s3nd-#{title}").with(
+          is_expected.to contain_file("/etc/sysconfig/s3nd/s3nd-#{title}").with(
             content: %r{FOO=BAR}
           )
         end
@@ -83,7 +93,7 @@ describe 's3nd::instance' do
         end
 
         it do
-          is_expected.to contain_file("/etc/sysconfig/s3nd-#{title}").with(
+          is_expected.to contain_file("/etc/sysconfig/s3nd/s3nd-#{title}").with(
             content: %r{BAZ=QUX}
           )
         end
@@ -109,13 +119,13 @@ describe 's3nd::instance' do
         end
 
         it do
-          is_expected.to contain_file("/etc/sysconfig/s3nd-#{title}").with(
+          is_expected.to contain_file("/etc/sysconfig/s3nd/s3nd-#{title}").with(
             content: %r{BAZ=QUX}
           )
         end
 
         it do
-          is_expected.to contain_file("/etc/sysconfig/s3nd-#{title}").with(
+          is_expected.to contain_file("/etc/sysconfig/s3nd/s3nd-#{title}").with(
             content: %r{FOO=BAR}
           )
         end
