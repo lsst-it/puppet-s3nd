@@ -27,7 +27,7 @@ rescue LoadError
   # voxpupuli-release not present
 else
   GCGConfig.user = 'lsst-it'
-  GCGConfig.project = 'puppet-s3daemon'
+  GCGConfig.project = 'puppet-s3nd'
 end
 
 desc "Run main 'test' task and report merged results to coveralls"

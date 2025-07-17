@@ -6,46 +6,46 @@
 
 ### Classes
 
-* [`s3daemon`](#s3daemon): Client/server for pushing objects to S3 storage.
+* [`s3nd`](#s3nd): Client/server for pushing objects to S3 storage.
 
 ### Defined types
 
-* [`s3daemon::instance`](#s3daemon--instance): Deploy the s3daemon service
+* [`s3nd::instance`](#s3nd--instance): Deploy the s3nd service
 
 ## Classes
 
-### <a name="s3daemon"></a>`s3daemon`
+### <a name="s3nd"></a>`s3nd`
 
 Client/server for pushing objects to S3 storage.
 
 #### Parameters
 
-The following parameters are available in the `s3daemon` class:
+The following parameters are available in the `s3nd` class:
 
-* [`instances`](#-s3daemon--instances)
-* [`image`](#-s3daemon--image)
-* [`volumes`](#-s3daemon--volumes)
-* [`env`](#-s3daemon--env)
+* [`instances`](#-s3nd--instances)
+* [`image`](#-s3nd--image)
+* [`volumes`](#-s3nd--volumes)
+* [`env`](#-s3nd--env)
 
-##### <a name="-s3daemon--instances"></a>`instances`
+##### <a name="-s3nd--instances"></a>`instances`
 
 Data type: `Optional[Hash[String[1], Hash]]`
 
 A hash of instances to configure. The key is the instance name and the value
-is a hash of `s3daemon::instance` parameters.
+is a hash of `s3nd::instance` parameters.
 
 Default value: `undef`
 
-##### <a name="-s3daemon--image"></a>`image`
+##### <a name="-s3nd--image"></a>`image`
 
 Data type: `String[1]`
 
 The default container image to use for the instances. May be overridden by
 the instance's env.
 
-Default value: `'ghcr.io/lsst-dm/s3daemon:main'`
+Default value: `'ghcr.io/lsst-dm/s3nd:main'`
 
-##### <a name="-s3daemon--volumes"></a>`volumes`
+##### <a name="-s3nd--volumes"></a>`volumes`
 
 Data type: `Array[Stdlib::Absolutepath]`
 
@@ -55,62 +55,62 @@ May be overridden by the instance.
 
 Default value: `['/home:/home']`
 
-##### <a name="-s3daemon--env"></a>`env`
+##### <a name="-s3nd--env"></a>`env`
 
 Data type: `Hash`
 
 A hash of additional environment variables to set in the container, common
-to all s3daemon::instance(s) but may be overridden by the instance's env
+to all s3nd::instance(s) but may be overridden by the instance's env
 param.
 
 Default value: `{}`
 
 ## Defined types
 
-### <a name="s3daemon--instance"></a>`s3daemon::instance`
+### <a name="s3nd--instance"></a>`s3nd::instance`
 
-Deploy the s3daemon service
+Deploy the s3nd service
 
 #### Parameters
 
-The following parameters are available in the `s3daemon::instance` defined type:
+The following parameters are available in the `s3nd::instance` defined type:
 
-* [`aws_access_key_id`](#-s3daemon--instance--aws_access_key_id)
-* [`aws_secret_access_key`](#-s3daemon--instance--aws_secret_access_key)
-* [`image`](#-s3daemon--instance--image)
-* [`volumes`](#-s3daemon--instance--volumes)
-* [`env`](#-s3daemon--instance--env)
+* [`aws_access_key_id`](#-s3nd--instance--aws_access_key_id)
+* [`aws_secret_access_key`](#-s3nd--instance--aws_secret_access_key)
+* [`image`](#-s3nd--instance--image)
+* [`volumes`](#-s3nd--instance--volumes)
+* [`env`](#-s3nd--instance--env)
 
-##### <a name="-s3daemon--instance--aws_access_key_id"></a>`aws_access_key_id`
+##### <a name="-s3nd--instance--aws_access_key_id"></a>`aws_access_key_id`
 
 Data type: `Variant[String[1], Sensitive[String[1]]]`
 
 The AWS access key ID to use for authentication.
 
-##### <a name="-s3daemon--instance--aws_secret_access_key"></a>`aws_secret_access_key`
+##### <a name="-s3nd--instance--aws_secret_access_key"></a>`aws_secret_access_key`
 
 Data type: `Variant[String[1], Sensitive[String[1]]]`
 
 The AWS secret access key to use for authentication.
 
-##### <a name="-s3daemon--instance--image"></a>`image`
+##### <a name="-s3nd--instance--image"></a>`image`
 
 Data type: `Optional[String[1]]`
 
-The container image to use for the s3daemon service.
+The container image to use for the s3nd service.
 
 Default value: `undef`
 
-##### <a name="-s3daemon--instance--volumes"></a>`volumes`
+##### <a name="-s3nd--instance--volumes"></a>`volumes`
 
 Data type: `Array[Stdlib::Absolutepath]`
 
 An array of volumes to mount in the container. Uses the format
 '/host:/contaner'.  E.g. ['/home:/home', '/data:/data']
 
-Default value: `$s3daemon::volumes`
+Default value: `$s3nd::volumes`
 
-##### <a name="-s3daemon--instance--env"></a>`env`
+##### <a name="-s3nd--instance--env"></a>`env`
 
 Data type: `Hash`
 

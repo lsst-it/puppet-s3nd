@@ -1,4 +1,4 @@
-# s3daemon
+# s3nd
 
 ## Table of Contents
 
@@ -9,7 +9,7 @@
 
 ## Overview
 
-[s3daemon](https://github.com/lsst-dm/s3daemon/) Client/server for pushing objects to S3 storage.
+[s3nd](https://github.com/lsst-dm/s3nd/) S3 Nexus Deliverator
 
 ## Description
 
@@ -25,22 +25,22 @@ Example role defined via hiera.
 ```yaml
 ---
 lookup_options:
-  s3daemon::instances:
+  s3nd::instances:
     merge:
       strategy: deep
 classes:
-  - s3daemon
-s3daemon::image: ghcr.io/lsst-dm/s3daemon:sha-b5e72fa
-s3daemon::env:
+  - s3nd
+s3nd::image: ghcr.io/lsst-dm/s3nd:sha-e9bfaa0
+s3nd::env:
   AWS_CA_BUNDLE: /path/to/cacert.pem
-s3daemon::instances:
+s3nd::instances:
   foo:
     aws_access_key_id: access_key_id
     aws_secret_access_key: secret_access_key
-    image: ghcr.io/lsst-dm/s3daemon:main
+    image: ghcr.io/lsst-dm/s3nd:main
     env:
-      S3_ENDPOINT_URL: https://s3.foo.example.com
-      S3DAEMON_PORT: 15556
+      S3ND_ENDPOINT_URL: https://s3.foo.example.com
+      S3ND_PORT: 15556
   bar:
     aws_access_key_id: access_key_id
     aws_secret_access_key: secret_access_key
@@ -48,8 +48,8 @@ s3daemon::instances:
       - "/home:/home"
       - "/opt:/opt"
     env:
-      S3_ENDPOINT_URL: https://s3.bar.example.com
-      S3DAEMON_PORT: 15557
+      S3ND_ENDPOINT_URL: https://s3.bar.example.com
+      S3ND_PORT: 15557
       AWS_DEFAULT_REGION: baz
 ```
 

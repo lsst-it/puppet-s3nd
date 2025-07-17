@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe 's3daemon::instance' do
+describe 's3nd::instance' do
   on_supported_os.each do |os, os_facts|
     context "on #{os}" do
       let(:facts) { os_facts }
@@ -11,7 +11,7 @@ describe 's3daemon::instance' do
         {
           env: {
             S3_ENDPOINT_URL: 'https://s3.example.com',
-            S3DAEMON_PORT: 15_556,
+            S3ND_PORT: 15_556,
           },
           aws_access_key_id: 'foo',
           aws_secret_access_key: 'bar',
@@ -19,31 +19,31 @@ describe 's3daemon::instance' do
       end
       let(:pre_condition) do
         <<-PRE_CONDITION
-          include s3daemon
+          include s3nd
         PRE_CONDITION
       end
 
       it { is_expected.to compile.with_all_deps }
 
       it do
-        is_expected.to contain_file("/etc/sysconfig/s3daemon-#{title}").with(
+        is_expected.to contain_file("/etc/sysconfig/s3nd-#{title}").with(
           ensure: 'file',
           show_diff: false,
           mode: '0600',
-          content: %r{S3DAEMON_PORT=15556}
+          content: %r{S3ND_PORT=15556}
         )
       end
 
       it do
-        is_expected.to contain_file("/etc/sysconfig/s3daemon-#{title}").
-          that_notifies("Quadlets::Quadlet[s3daemon-#{title}.container]")
+        is_expected.to contain_file("/etc/sysconfig/s3nd-#{title}").
+          that_notifies("Quadlets::Quadlet[s3nd-#{title}.container]")
       end
 
       it do
-        is_expected.to contain_quadlets__quadlet("s3daemon-#{title}.container").with(
+        is_expected.to contain_quadlets__quadlet("s3nd-#{title}.container").with(
           container_entry: {
-            'EnvironmentFile' => ["/etc/sysconfig/s3daemon-#{title}"],
-            'Image'           => 'ghcr.io/lsst-dm/s3daemon:main',
+            'EnvironmentFile' => ["/etc/sysconfig/s3nd-#{title}"],
+            'Image'           => 'ghcr.io/lsst-dm/s3nd:main',
             'Network'         => 'host',
             'Volume'          => [
               '/home:/home',
@@ -65,16 +65,16 @@ describe 's3daemon::instance' do
         end
 
         it do
-          is_expected.to contain_file("/etc/sysconfig/s3daemon-#{title}").with(
+          is_expected.to contain_file("/etc/sysconfig/s3nd-#{title}").with(
             content: %r{FOO=BAR}
           )
         end
       end
 
-      context 'with s3daemon::env' do
+      context 'with s3nd::env' do
         let(:pre_condition) do
           <<-PRE_CONDITION
-            class { 's3daemon':
+            class { 's3nd':
               env => {
                 'BAZ' => 'QUX',
               },
@@ -83,16 +83,16 @@ describe 's3daemon::instance' do
         end
 
         it do
-          is_expected.to contain_file("/etc/sysconfig/s3daemon-#{title}").with(
+          is_expected.to contain_file("/etc/sysconfig/s3nd-#{title}").with(
             content: %r{BAZ=QUX}
           )
         end
       end
 
-      context 'with s3daemon::env & isntance env' do
+      context 'with s3nd::env & isntance env' do
         let(:pre_condition) do
           <<-PRE_CONDITION
-            class { 's3daemon':
+            class { 's3nd':
               env => {
                 'BAZ' => 'QUX',
               },
@@ -109,13 +109,13 @@ describe 's3daemon::instance' do
         end
 
         it do
-          is_expected.to contain_file("/etc/sysconfig/s3daemon-#{title}").with(
+          is_expected.to contain_file("/etc/sysconfig/s3nd-#{title}").with(
             content: %r{BAZ=QUX}
           )
         end
 
         it do
-          is_expected.to contain_file("/etc/sysconfig/s3daemon-#{title}").with(
+          is_expected.to contain_file("/etc/sysconfig/s3nd-#{title}").with(
             content: %r{FOO=BAR}
           )
         end
