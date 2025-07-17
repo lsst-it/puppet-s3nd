@@ -1,6 +1,6 @@
 {
   "name": "lsst-s3nd",
-  "version": "1.0.0-rc0",
+  "version": "1.0.0",
   "author": "AURA/LSST/Rubin Observatory",
   "summary": "Client/server for pushing objects to S3 storage.",
   "license": "Apache-2.0",
