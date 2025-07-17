@@ -2,7 +2,7 @@
   "name": "lsst-s3nd",
   "version": "1.0.1-rc0",
   "author": "AURA/LSST/Rubin Observatory",
-  "summary": "Client/server for pushing objects to S3 storage.",
+  "summary": "S3 Nexus Deliverator",
   "license": "Apache-2.0",
   "source": "https://github.com/lsst-it/puppet-s3nd.git",
   "tags": [
