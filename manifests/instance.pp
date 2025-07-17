@@ -31,7 +31,7 @@ define s3nd::instance (
     'AWS_SECRET_ACCESS_KEY' => $aws_secret_access_key.unwrap,
   } + $s3nd::env + $env
 
-  file { "/etc/sysconfig/s3nd-${name}":
+  file { "/etc/sysconfig/s3nd/s3nd-${name}":
     ensure    => file,
     show_diff => false,  # don't leak secrets in the logs
     mode      => '0600',  # only root should be able to read the secrets
@@ -61,7 +61,7 @@ define s3nd::instance (
     },
     container_entry => {
       'EnvironmentFile' => [
-        "/etc/sysconfig/s3nd-${name}",
+        "/etc/sysconfig/s3nd/s3nd-${name}",
       ],
       'Image'           => $_image,
       'Network'         => 'host',
