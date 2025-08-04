@@ -10,6 +10,9 @@
 # @param image
 #   The container image to use for the s3nd service.
 #
+# @param port
+#   The port on which the s3nd service will listen.
+#
 # @param volumes
 #   An array of volumes to mount in the container. Uses the format
 #   '/host:/contaner'.  E.g. ['/home:/home', '/data:/data']
@@ -21,6 +24,7 @@ define s3nd::instance (
   Variant[String[1], Sensitive[String[1]]] $aws_access_key_id,
   Variant[String[1], Sensitive[String[1]]] $aws_secret_access_key,
   Optional[String[1]] $image = undef,
+  Optional[Integer[1]] $port = undef,
   Array[Stdlib::Absolutepath] $volumes = $s3nd::volumes,
   Hash $env = {},
 ) {
@@ -29,6 +33,7 @@ define s3nd::instance (
   $envvars = {
     'AWS_ACCESS_KEY_ID'     => $aws_access_key_id.unwrap,
     'AWS_SECRET_ACCESS_KEY' => $aws_secret_access_key.unwrap,
+    'S3ND_PORT'            => $port,
   } + $s3nd::env + $env
 
   file { "/etc/sysconfig/s3nd/s3nd-${name}":
