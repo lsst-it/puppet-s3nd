@@ -78,6 +78,7 @@ The following parameters are available in the `s3nd::instance` defined type:
 * [`aws_access_key_id`](#-s3nd--instance--aws_access_key_id)
 * [`aws_secret_access_key`](#-s3nd--instance--aws_secret_access_key)
 * [`image`](#-s3nd--instance--image)
+* [`port`](#-s3nd--instance--port)
 * [`volumes`](#-s3nd--instance--volumes)
 * [`env`](#-s3nd--instance--env)
 
@@ -98,6 +99,14 @@ The AWS secret access key to use for authentication.
 Data type: `Optional[String[1]]`
 
 The container image to use for the s3nd service.
+
+Default value: `undef`
+
+##### <a name="-s3nd--instance--port"></a>`port`
+
+Data type: `Optional[Integer[1]]`
+
+The port on which the s3nd service will listen.
 
 Default value: `undef`
 
