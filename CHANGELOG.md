@@ -4,6 +4,22 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v1.2.1](https://github.com/lsst-it/puppet-s3nd/tree/v1.2.1) (2025-10-01)
+
+[Full Changelog](https://github.com/lsst-it/puppet-s3nd/compare/v1.2.0...v1.2.1)
+
+**Breaking changes:**
+
+- drop puppet7 support [\#6](https://github.com/lsst-it/puppet-s3nd/pull/6) ([jhoblitt](https://github.com/jhoblitt))
+
+## [v1.2.0](https://github.com/lsst-it/puppet-s3nd/tree/v1.2.0) (2025-09-26)
+
+[Full Changelog](https://github.com/lsst-it/puppet-s3nd/compare/v1.1.0...v1.2.0)
+
+**Implemented enhancements:**
+
+- \(metadata.json\) Bump quadlets to include 2.x.x [\#4](https://github.com/lsst-it/puppet-s3nd/pull/4) ([badenerb](https://github.com/badenerb))
+
 ## [v1.1.0](https://github.com/lsst-it/puppet-s3nd/tree/v1.1.0) (2025-08-04)
 
 [Full Changelog](https://github.com/lsst-it/puppet-s3nd/compare/v1.0.0...v1.1.0)
