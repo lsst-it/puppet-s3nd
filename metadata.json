@@ -1,6 +1,6 @@
 {
   "name": "lsst-s3nd",
-  "version": "1.2.1",
+  "version": "1.3.0",
   "author": "AURA/LSST/Rubin Observatory",
   "summary": "S3 Nexus Deliverator",
   "license": "Apache-2.0",
