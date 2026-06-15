@@ -1,0 +1,10 @@
+# managed by puppet (s3nd::watchdog)
+[Unit]
+Description=s3nd endpoint failover watchdog
+Documentation=https://github.com/lsst-it/puppet-s3nd
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/s3nd-watchdog

@@ -7,6 +7,7 @@
 ### Classes
 
 * [`s3nd`](#s3nd): Client/server for pushing objects to S3 storage.
+* [`s3nd::watchdog`](#s3nd--watchdog): Automatic endpoint failover for s3nd instances.
 
 ### Defined types
 
@@ -26,6 +27,7 @@ The following parameters are available in the `s3nd` class:
 * [`image`](#-s3nd--image)
 * [`volumes`](#-s3nd--volumes)
 * [`env`](#-s3nd--env)
+* [`watchdog`](#-s3nd--watchdog)
 
 ##### <a name="-s3nd--instances"></a>`instances`
 
@@ -64,6 +66,149 @@ to all s3nd::instance(s) but may be overridden by the instance's env
 param.
 
 Default value: `{}`
+
+##### <a name="-s3nd--watchdog"></a>`watchdog`
+
+Data type: `Optional[Hash[String[1], Any]]`
+
+A hash of `s3nd::watchdog` class parameters. When set, deploys a watchdog
+which health checks an /etc/hosts pinned endpoint and automatically fails
+over to an alternate receiver, restarting the affected instances.
+
+Default value: `undef`
+
+### <a name="s3nd--watchdog"></a>`s3nd::watchdog`
+
+Deploys a systemd timer driven watchdog which health checks the receiver
+behind an /etc/hosts pinned endpoint hostname. After a number of
+consecutive probe failures the watchdog re-pins the hostname to a confirmed
+healthy receiver and restarts the s3nd instances which target that
+endpoint, so that pooled keep-alive connections are re-established (s3nd
+never closes idle connections and podman only copies /etc/hosts into the
+container at startup, so a restart is mandatory for a pin change to take
+effect).
+
+The watchdog records the current pin in the `s3nd_watchdog.endpoint_ip`
+external fact and this class uses that fact to declare the `host` resource,
+so puppet converges on whatever pin the watchdog has chosen instead of
+fighting it. A fact value which is not in $receivers is ignored and the
+first receiver is used instead.
+
+This class is not intended to be assigned to a node directly; declare it
+via the `s3nd::watchdog` class parameter.
+
+#### Parameters
+
+The following parameters are available in the `s3nd::watchdog` class:
+
+* [`endpoint_hostname`](#-s3nd--watchdog--endpoint_hostname)
+* [`receivers`](#-s3nd--watchdog--receivers)
+* [`ensure`](#-s3nd--watchdog--ensure)
+* [`endpoint_port`](#-s3nd--watchdog--endpoint_port)
+* [`probe_path`](#-s3nd--watchdog--probe_path)
+* [`probe_timeout`](#-s3nd--watchdog--probe_timeout)
+* [`fail_threshold`](#-s3nd--watchdog--fail_threshold)
+* [`rise_count`](#-s3nd--watchdog--rise_count)
+* [`cooldown`](#-s3nd--watchdog--cooldown)
+* [`interval`](#-s3nd--watchdog--interval)
+* [`units`](#-s3nd--watchdog--units)
+
+##### <a name="-s3nd--watchdog--endpoint_hostname"></a>`endpoint_hostname`
+
+Data type: `Stdlib::Fqdn`
+
+The endpoint hostname to manage in /etc/hosts and to health check. Mind
+that any `hosts::entries` (or other) declaration of the same hostname
+must be removed to avoid a duplicate resource error.
+
+##### <a name="-s3nd--watchdog--receivers"></a>`receivers`
+
+Data type: `Array[Stdlib::IP::Address::Nosubnet, 1]`
+
+IP addresses of the interchangeable receivers behind the endpoint
+hostname. The first receiver is the initial pin. A single element list is
+allowed; the watchdog then only reports health (it has nowhere to fail
+over to).
+
+##### <a name="-s3nd--watchdog--ensure"></a>`ensure`
+
+Data type: `Enum['present', 'absent']`
+
+Set to `absent` to remove the watchdog, its configuration, and its fact.
+The /etc/hosts entry is no longer managed (and will be purged if the
+`hosts` class purges unmanaged entries) unless it is re-declared
+elsewhere.
+
+Default value: `'present'`
+
+##### <a name="-s3nd--watchdog--endpoint_port"></a>`endpoint_port`
+
+Data type: `Stdlib::Port`
+
+The TCP port used by both the health probe and the receivers.
+
+Default value: `443`
+
+##### <a name="-s3nd--watchdog--probe_path"></a>`probe_path`
+
+Data type: `String[1]`
+
+URL path requested by the health probe. Any HTTP response with a status
+below 500 counts as healthy.
+
+Default value: `'/'`
+
+##### <a name="-s3nd--watchdog--probe_timeout"></a>`probe_timeout`
+
+Data type: `Integer[1]`
+
+Per-probe timeout in seconds.
+
+Default value: `5`
+
+##### <a name="-s3nd--watchdog--fail_threshold"></a>`fail_threshold`
+
+Data type: `Integer[1]`
+
+Number of consecutive probe failures of the pinned receiver before a
+failover is attempted.
+
+Default value: `3`
+
+##### <a name="-s3nd--watchdog--rise_count"></a>`rise_count`
+
+Data type: `Integer[1]`
+
+Number of consecutive successful probes required to confirm a candidate
+receiver as healthy before failing over to it.
+
+Default value: `2`
+
+##### <a name="-s3nd--watchdog--cooldown"></a>`cooldown`
+
+Data type: `Integer[0]`
+
+Minimum number of seconds between failovers (flap protection).
+
+Default value: `300`
+
+##### <a name="-s3nd--watchdog--interval"></a>`interval`
+
+Data type: `String[1]`
+
+Probe interval, as a systemd timespan (timer `OnUnitActiveSec`).
+
+Default value: `'30s'`
+
+##### <a name="-s3nd--watchdog--units"></a>`units`
+
+Data type: `Optional[Array[String[1]]]`
+
+Systemd units to restart after a failover. Defaults to the units of the
+`s3nd::instance` resources whose effective `S3ND_ENDPOINT_URL` targets
+$endpoint_hostname.
+
+Default value: `undef`
 
 ## Defined types
 

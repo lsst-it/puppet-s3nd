@@ -53,6 +53,36 @@ s3nd::instances:
       AWS_DEFAULT_REGION: baz
 ```
 
+### Endpoint failover watchdog
+
+When the endpoint hostname is not resolvable from the client network and has
+to be pinned in `/etc/hosts` (e.g. an embargo store reachable only by IP over
+a dedicated link), the module can deploy a watchdog which health checks the
+pinned receiver and automatically re-pins the hostname to a healthy alternate
+receiver, restarting the s3nd instances which target that endpoint:
+
+```yaml
+s3nd::watchdog:
+  endpoint_hostname: sdfembs3.sdf.slac.stanford.edu
+  receivers:
+    - "172.24.7.249"
+    - "172.24.7.250"
+    - "172.24.7.251"
+```
+
+The affected instances are derived automatically from the effective
+`S3ND_ENDPOINT_URL` of each instance. The watchdog records its choice in the
+`s3nd_watchdog.endpoint_ip` external fact, which this module uses to declare
+the `host` resource -- puppet therefore converges on the watchdog's pin
+instead of reverting it. A pre-existing `hosts::entries` (or similar)
+declaration of the same hostname must be removed when enabling the watchdog,
+or catalog compilation will fail with a duplicate `Host` resource.
+
+Failover requires a service restart by design: s3nd never expires idle
+pooled connections, and podman only copies `/etc/hosts` into the container
+at startup. See `REFERENCE.md` for the flap protection knobs
+(`fail_threshold`, `rise_count`, `cooldown`).
+
 ## Reference
 
 See [REFERENCE](REFERENCE.md)
