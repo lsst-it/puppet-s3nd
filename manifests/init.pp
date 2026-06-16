@@ -19,17 +19,29 @@
 #  to all s3nd::instance(s) but may be overridden by the instance's env
 #  param.
 #
+# @param watchdog
+#   A hash of `s3nd::watchdog` class parameters. When set, deploys a watchdog
+#   which health checks an /etc/hosts pinned endpoint and automatically fails
+#   over to an alternate receiver, restarting the affected instances.
+#
 class s3nd (
   Optional[Hash[String[1], Hash]] $instances = undef,
   String[1] $image = 'ghcr.io/lsst-dm/s3nd:main',
   Array[Stdlib::Absolutepath] $volumes = ['/home:/home'],
   Hash $env = {},
+  Optional[Hash[String[1], Any]] $watchdog = undef,
 ) {
   if $instances != undef {
     $instances.each |$name, $params| {
       s3nd::instance { $name:
         * => $params,
       }
+    }
+  }
+
+  if $watchdog =~ NotUndef {
+    class { 's3nd::watchdog':
+      * => $watchdog,
     }
   }
 

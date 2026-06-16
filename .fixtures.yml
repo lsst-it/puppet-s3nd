@@ -6,3 +6,4 @@ fixtures:
     stdlib: puppetlabs/stdlib
     quadlets: puppet/quadlets
     systemd: puppet/systemd
+    host_core: puppetlabs/host_core
